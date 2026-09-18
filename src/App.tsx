@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { FiltroBarra } from './components/FiltroBarra'
+import { Login } from './components/Login'
 import { Logo } from './components/Logo'
 import { ModoTreino } from './components/ModoTreino'
 import { ProgressoStats } from './components/ProgressoStats'
 import { TemaToggle } from './components/TemaToggle'
 import { todasQuestoes, topicos } from './data'
+import { useAuth } from './hooks/useAuth'
 import { useProgresso } from './hooks/useProgresso'
 import { useTema } from './hooks/useTema'
 import type { Questao } from './types'
@@ -23,8 +25,24 @@ function poolAleatorio(topicoIds: Set<string>): Questao[] {
 }
 
 function App() {
-  const { progresso, registrar } = useProgresso()
+  const { session, carregando: carregandoAuth, entrar, sair } = useAuth()
   const { tema, setTema } = useTema()
+
+  if (carregandoAuth) return null
+  if (!session) return <Login onEntrar={entrar} />
+
+  return <AppTreino userId={session.user.id} tema={tema} onMudarTema={setTema} onSair={sair} />
+}
+
+interface AppTreinoProps {
+  userId: string
+  tema: ReturnType<typeof useTema>['tema']
+  onMudarTema: (tema: ReturnType<typeof useTema>['tema']) => void
+  onSair: () => void
+}
+
+function AppTreino({ userId, tema, onMudarTema, onSair }: AppTreinoProps) {
+  const { progresso, carregando: carregandoProgresso, registrar } = useProgresso(userId)
 
   const [topicosSelecionados, setTopicosSelecionados] = useState(() => new Set(topicos.map((t) => t.id)))
   const [fila, setFila] = useState<Questao[]>([])
@@ -57,11 +75,22 @@ function App() {
     }
   }
 
+  if (carregandoProgresso) return null
+
   return (
     <div className="min-h-screen bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
-      <header className="flex flex-wrap items-center justify-between gap-2 px-4 py-4 sm:px-6">
+      <header className="mx-auto flex max-w-2xl flex-wrap items-center justify-between gap-2 px-4 py-4 sm:px-6">
         <ProgressoStats questoes={todasQuestoes} progresso={progresso} />
-        <TemaToggle tema={tema} onMudar={setTema} />
+        <div className="flex items-center gap-2">
+          <TemaToggle tema={tema} onMudar={onMudarTema} />
+          <button
+            type="button"
+            onClick={onSair}
+            className="rounded border border-neutral-300 px-3 py-1.5 text-sm text-neutral-600 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-900"
+          >
+            sair
+          </button>
+        </div>
       </header>
 
       {!emTreino ? (
@@ -72,7 +101,7 @@ function App() {
             type="button"
             onClick={sortear}
             disabled={topicosSelecionados.size === 0}
-            className="rounded-full bg-neutral-900 px-7 py-3 text-base font-medium text-white disabled:opacity-40 dark:bg-neutral-100 dark:text-neutral-900"
+            className="rounded bg-neutral-900 px-7 py-3 text-base font-medium text-white disabled:opacity-40 dark:bg-neutral-100 dark:text-neutral-900"
           >
             Sortear questão
           </button>
@@ -86,7 +115,7 @@ function App() {
               type="button"
               onClick={sortear}
               disabled={topicosSelecionados.size === 0}
-              className="rounded-full border border-neutral-300 px-5 py-2 text-base font-medium text-neutral-700 disabled:opacity-40 dark:border-neutral-700 dark:text-neutral-300"
+              className="rounded border border-neutral-300 px-5 py-2 text-base font-medium text-neutral-700 disabled:opacity-40 dark:border-neutral-700 dark:text-neutral-300"
             >
               Sortear outra questão
             </button>

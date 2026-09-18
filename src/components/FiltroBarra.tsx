@@ -13,7 +13,7 @@ export function FiltroBarra({ selecionados, onToggle }: Props) {
       <button
         type="button"
         onClick={() => topicos.forEach((t) => (selecionados.has(t.id) === todosSelecionados ? onToggle(t.id) : null))}
-        className={`rounded-full border px-4 py-2 text-base font-medium ${
+        className={`rounded border px-3 py-1.5 text-sm font-medium ${
           todosSelecionados
             ? 'border-neutral-900 bg-neutral-900 text-white dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900'
             : 'border-neutral-300 text-neutral-600 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-900'
@@ -29,12 +29,11 @@ export function FiltroBarra({ selecionados, onToggle }: Props) {
             key={topico.id}
             type="button"
             onClick={() => onToggle(topico.id)}
-            className={`flex items-center gap-1.5 rounded-full border px-4 py-2 text-base font-medium transition-colors ${
+            className={`rounded border px-3 py-1.5 text-sm font-medium transition-colors ${
               ativo ? '' : 'border-neutral-300 text-neutral-600 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-900'
             }`}
             style={ativo ? { background: `${topico.cor}1f`, borderColor: topico.cor, color: topico.cor } : undefined}
           >
-            <span className="inline-block h-2 w-2 rounded-full" style={{ background: ativo ? topico.cor : '#a3a3a3' }} />
             {topico.rotuloCurto}
           </button>
         )

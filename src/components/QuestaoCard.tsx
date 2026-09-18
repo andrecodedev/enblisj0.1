@@ -22,7 +22,7 @@ export function QuestaoCard({ questao, cor, progresso, onResponder }: Props) {
 
   return (
     <article
-      className="rounded-lg border border-neutral-200 border-l-4 p-4 sm:p-5 dark:border-neutral-800"
+      className="rounded border border-neutral-200 border-l-4 p-4 sm:p-5 dark:border-neutral-800"
       style={{ borderLeftColor: cor }}
     >
       <div className="mb-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-sm uppercase tracking-wide text-neutral-500">

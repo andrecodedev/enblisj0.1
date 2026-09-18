@@ -22,7 +22,7 @@ export function QuestaoObjetivaCard({ questao, salva, onResponder }: Props) {
 
   return (
     <div className="space-y-4">
-      <p className="whitespace-pre-line text-base leading-relaxed text-neutral-800 sm:text-lg dark:text-neutral-200">{questao.enunciado}</p>
+      <p className="whitespace-pre-line text-base leading-relaxed text-neutral-800 dark:text-neutral-200">{questao.enunciado}</p>
 
       <div className="space-y-2">
         {questao.alternativas.map((alt) => {

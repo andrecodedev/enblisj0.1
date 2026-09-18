@@ -20,10 +20,9 @@ export function ModoTreino({ topico, questao, posicao, total, progresso, onRespo
     <div className="mx-auto max-w-2xl space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span
-          className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium"
+          className="inline-flex items-center rounded px-3 py-1 text-sm font-medium"
           style={{ background: `${topico.cor}1a`, color: topico.cor }}
         >
-          <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: topico.cor }} />
           {topico.categoria}
         </span>
         <span className="text-sm text-neutral-500">

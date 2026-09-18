@@ -18,7 +18,7 @@ export function QuestaoAbertaCard({ questao, salva, onResponder }: Props) {
 
   return (
     <div className="space-y-4">
-      <p className="whitespace-pre-line text-base leading-relaxed text-neutral-800 sm:text-lg dark:text-neutral-200">{questao.enunciado}</p>
+      <p className="whitespace-pre-line text-base leading-relaxed text-neutral-800 dark:text-neutral-200">{questao.enunciado}</p>
 
       <textarea
         value={resposta}

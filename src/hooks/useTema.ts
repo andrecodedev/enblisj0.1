@@ -9,9 +9,9 @@ function temaInicial(): Tema {
     const salvo = localStorage.getItem(CHAVE)
     if (salvo === 'claro' || salvo === 'escuro') return salvo
   } catch {
-    // localStorage indisponível: cai no fallback do sistema
+    // localStorage indisponível: cai no padrao claro
   }
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'escuro' : 'claro'
+  return 'claro'
 }
 
 export function useTema() {
